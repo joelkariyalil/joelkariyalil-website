@@ -1,10 +1,11 @@
 import Layout from '@/components/Layout';
 import Image from 'next/image';
-
+import BackgroundCanvas from '@/components/BackgroundCanvas'; // ✅ make sure path is correct
 
 export default function HomePage() {
   return (
     <Layout title="Home">
+      <BackgroundCanvas /> {/* ✅ Background canvas rendered here */}
 
       <section className="min-h-screen flex items-center px-6 bg-transparent relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-6xl mx-auto gap-16">
@@ -21,12 +22,12 @@ export default function HomePage() {
 
           {/* RIGHT IMAGE */}
           <div className="md:w-1/2 flex justify-center">
-            <div className="w-72 h-72 rounded-full overflow-hidden shadow-md">
+            <div className="w-81 h-81 rounded-full overflow-hidden shadow-md">
               <Image
-                src="/profile.jpg"
+                src="/profilepic.jpg"
                 alt="Joel Thomas Chacko"
-                width={288}
-                height={288}
+                width={311}
+                height={311}
                 className="object-cover w-full h-full"
                 priority
               />
