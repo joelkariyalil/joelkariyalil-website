@@ -21,12 +21,25 @@ export interface BlogPost {
   slug: string;
   title: string;
   date: string;
+  content: string;
   excerpt: string;
   coverImage?: string;
-  content: string;
-  techStack?: string[];  // Array of technology tags
-  isFeatured?: boolean;  // Whether the post should be featured
-  showTags?: boolean;    // Whether to show tags for this post
+  author?: {
+    name: string;
+    picture: string;
+  };
+  ogImage?: {
+    url: string;
+  };
+  readingTime: string;
+  tableOfContents: Array<{
+    text: string;
+    id: string;
+    level: number;
+  }>;
+  techStack?: string[];
+  isFeatured?: boolean;
+  showTags?: boolean;
 }
 
 const postsDirectory = path.join(process.cwd(), 'content/blogs');
@@ -63,16 +76,30 @@ function isValidBlogPost(data: any): data is BlogPost {
     typeof data.date === 'string' &&
     typeof data.excerpt === 'string' &&
     typeof data.content === 'string' &&
-    (data.coverImage === undefined || typeof data.coverImage === 'string') &&
-    (data.techStack === undefined || Array.isArray(data.techStack)) &&
-    (data.isFeatured === undefined || typeof data.isFeatured === 'boolean') &&
-    (data.showTags === undefined || typeof data.showTags === 'boolean')
+    (data.coverImage === null || typeof data.coverImage === 'string') &&
+    Array.isArray(data.techStack) &&
+    typeof data.isFeatured === 'boolean' &&
+    typeof data.showTags === 'boolean' &&
+    typeof data.readingTime === 'string' &&
+    Array.isArray(data.tableOfContents) &&
+    (data.author === null || (
+      typeof data.author === 'object' &&
+      data.author !== null &&
+      (data.author.name === null || typeof data.author.name === 'string') &&
+      (data.author.picture === null || typeof data.author.picture === 'string')
+    )) &&
+    (data.ogImage === null || (
+      typeof data.ogImage === 'object' &&
+      data.ogImage !== null &&
+      (data.ogImage.url === null || typeof data.ogImage.url === 'string')
+    ))
   );
 }
 
-export function getPostBySlug(slug: string): BlogPost | null {
+export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
   try {
     const fullPath = path.join(postsDirectory, slug, 'index.md');
+    const postPath = path.dirname(fullPath);
     
     // Check if file exists
     if (!fs.existsSync(fullPath)) {
@@ -83,10 +110,56 @@ export function getPostBySlug(slug: string): BlogPost | null {
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 
+    // Get list of available assets
+    const availableAssets = getAssetsList(postPath);
+
     // Transform relative image paths to API routes
     let coverImage = data.coverImage;
     if (coverImage?.startsWith('./')) {
-      coverImage = `/api/content/blogs/${slug}/${coverImage.slice(2)}`;
+      const assetPath = coverImage.slice(2); // Remove './'
+      if (!availableAssets.includes(assetPath.replace('assets/', ''))) {
+        console.warn(`Cover image not found: ${assetPath} in post ${slug}`);
+        coverImage = null;
+      } else {
+        coverImage = `/api/content/blogs/${slug}/${assetPath}`;
+      }
+    }
+
+    // Process markdown content
+    const processedContent = await unified()
+      .use(remarkParse)
+      .use(remarkGfm)
+      .use(remarkRehype)
+      .use(rehypeSlug)
+      .use(rehypeAutolinkHeadings)
+      .use(rehypeHighlight)
+      .use(rehypeStringify)
+      .process(content);
+
+    // Extract table of contents from headings
+    const headings: TableOfContents[] = [];
+    const contentStr = processedContent.toString();
+    const headingRegex = /<h([1-6])\s+id="([^"]+)"[^>]*>([^<]+)<\/h[1-6]>/g;
+    let match;
+    while ((match = headingRegex.exec(contentStr)) !== null) {
+      headings.push({
+        level: parseInt(match[1]),
+        id: match[2],
+        text: match[3],
+      });
+    }
+
+    // Calculate reading time
+    const readingTimeResult = readingTime(content);
+
+    // Validate and transform asset paths in content
+    let processedContentStr = contentStr;
+    const assetRegex = /(?:src|poster)="\.\/assets\/([^"]+)"/g;
+    while ((match = assetRegex.exec(contentStr)) !== null) {
+      const assetPath = match[1];
+      if (!availableAssets.includes(assetPath)) {
+        console.warn(`Asset not found: ${assetPath} in post ${slug}`);
+      }
     }
 
     const post = {
@@ -94,11 +167,20 @@ export function getPostBySlug(slug: string): BlogPost | null {
       title: data.title || null,
       date: data.date || null,
       excerpt: data.excerpt || null,
-      coverImage,
-      content,
+      coverImage: coverImage || null,
+      content: processedContentStr || '',
       techStack: data.techStack || [],
       isFeatured: data.isFeatured ?? false,
-      showTags: data.showTags !== false, // Default to true
+      showTags: data.showTags !== false,
+      readingTime: readingTimeResult.text,
+      tableOfContents: headings,
+      author: data.author ? {
+        name: data.author.name || null,
+        picture: data.author.picture || null
+      } : null,
+      ogImage: data.ogImage ? {
+        url: data.ogImage.url || null
+      } : null
     };
 
     if (!isValidBlogPost(post)) {
@@ -113,14 +195,14 @@ export function getPostBySlug(slug: string): BlogPost | null {
   }
 }
 
-export function getAllPosts(): BlogPost[] {
+export async function getAllPosts(): Promise<BlogPost[]> {
   try {
     const slugs = fs.readdirSync(postsDirectory);
-    const posts = slugs
+    const postsPromises = slugs
       .filter(slug => fs.existsSync(path.join(postsDirectory, slug, 'index.md')))
-      .map(slug => getPostBySlug(slug))
-      .filter((post): post is BlogPost => post !== null);
-
+      .map(slug => getPostBySlug(slug));
+    
+    const posts = (await Promise.all(postsPromises)).filter((post): post is BlogPost => post !== null);
     return posts;
   } catch (error) {
     console.error('Error reading blog posts:', error);
@@ -129,9 +211,9 @@ export function getAllPosts(): BlogPost[] {
 }
 
 // Function to get all unique tags from blog posts
-export function getAllBlogTags(): string[] {
+export async function getAllBlogTags(): Promise<string[]> {
   try {
-    const posts = getAllPosts();
+    const posts = await getAllPosts();
     const tagSet = new Set<string>();
     
     posts.forEach(post => {

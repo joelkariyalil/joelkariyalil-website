@@ -245,27 +245,12 @@ function BlogCard({ post, featured = false }: BlogCardProps) {
 export const getStaticProps: GetStaticProps = async () => {
   const allPosts = await getAllPosts();
   const allTags = await getAllBlogTags();
-
-  // Ensure all required fields are present and not undefined
-  const validPosts = allPosts.filter(post => 
-    post.title && 
-    post.date && 
-    post.excerpt && 
-    post.slug
-  );
-
-  // Sort posts by date
-  const sortedPosts = [...validPosts].sort((a, b) => 
-    new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
-
-  // Get featured posts
-  const featuredPosts = sortedPosts.filter(post => post.isFeatured);
+  const featuredPosts = allPosts.filter(post => post.isFeatured);
 
   return {
     props: {
       featuredPosts,
-      allPosts: sortedPosts,
+      allPosts,
       allTags,
     },
   };
