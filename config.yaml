@@ -1,0 +1,82 @@
+site:
+  title: "Joel Kariyalil"
+  description: "Software Engineer and ML Researcher"
+  baseUrl: "https://joelkariyalil.com"
+
+personal:
+  name: "Joel Kariyalil"
+  email: "joel@example.com"
+  location: "Dublin, Ireland"
+  social:
+    github: "joelkariyalil"
+    linkedin: "joelkariyalil"
+    instagram: "joelkariyalil"
+  bio: >
+    An industrious gold medalist in computer science with over 2 years of software development experience in leveraging
+    technology to drive innovation. A published Machine Learning researcher and active maintainer of a self-authored open-source
+    Python module with over 7000 installations.
+
+skills:
+  languages: ["Python", "C++", "R", "C", "Java"]
+  databases: ["MySQL", "S3", "PostgreSQL", "Spark", "RDS"]
+  frameworks: ["Flask", "Django", "TensorFlow", "React", "Next.js", "Selenium", "RESTful APIs"]
+  cloud: ["AWS (Lambda, S3, EC2, RDS)", "Azure", "IBM Cloud"]
+  cicd: ["Jenkins", "Docker", "Kubernetes", "OpenShift", "GitHub Actions"]
+  analytics: ["Power BI"]
+  soft: ["Deliver Results", "Bias for Action", "Team Player", "Self-Initiator", "Eager to Learn"]
+
+experience:
+  professional:
+    - company: "Tally Solutions Pvt. Ltd."
+      title: "Software Test (Operations) Engineer"
+      period: "May 2023 - Aug 2024"
+      achievements:
+        - "Led the initial feasibility research and directed the migration of Jenkins from Windows to a Dockerized Linux environment on AWS"
+        - "Ensured 100% up-time of dockerized Dev, Staging, and Production Jenkins servers"
+        - "Boosted workflow execution times by 99.35% using Python Multi-Pool Executor"
+        - "Designed solutions with Prompt Engg. with Generative AI (OpenAI APIs)-LLMs"
+        - "Published a Python open-source module - Context-Aware-Jenkins-Job-Transfers"
+
+    - company: "AI Robosoft Pvt. Ltd."
+      title: "AI and ML Intern"
+      period: "Feb 2023 - Apr 2023"
+      achievements:
+        - "Collaborated on state-of-the-art projects in AI and ML at AI Robosoft"
+        - "Developed and implemented ML models using Python and TensorFlow"
+        - "Utilized various algorithms (VGG19, ResNet50) to train models"
+
+  education:
+    - institution: "University College Dublin (UCD)"
+      degree: "M.Sc., Data and Computational Science"
+      period: "Sept 2024 - Present"
+      details:
+        - "Modules include ML and AI, Regression and Statistical Analysis"
+
+    - institution: "MVJ College of Engineering"
+      degree: "B.E., Computer Science and Engineering"
+      period: "Sept 2019 – Sept 2023"
+      gpa: "9.89/10"
+      achievements:
+        - "Gold Medalist"
+        - "Published three research papers in IEEE journals"
+        - "Modules included Machine Learning, AI, Data Structures, and Software Engineering"
+
+languages:
+  - name: "Malayalam"
+    proficiency: "Native"
+  - name: "Kannada"
+    proficiency: "Fluent"
+  - name: "Tamil"
+    proficiency: "Fluent"
+  - name: "Hindi"
+    proficiency: "Fluent"
+  - name: "English"
+    proficiency: "Fluent"
+
+interests:
+  - "Comedy Sketch Writing"
+  - "Debating"
+  - "Reading"
+  - "Playing Guitar"
+  - "Cycling"
+  - "Playing Polyrhythms" 

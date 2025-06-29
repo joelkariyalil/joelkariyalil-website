@@ -1,40 +1,33 @@
-import Layout from '@/components/Layout';
 import Image from 'next/image';
-import BackgroundCanvas from '@/components/BackgroundCanvas'; 
+import Layout from '@/components/Layout';
 
 export default function HomePage() {
   return (
-    <Layout title="Home">
-      <BackgroundCanvas /> {/* ✅ Background canvas rendered here */}
-
-      <section className="min-h-screen flex items-center px-6 bg-transparent relative z-10">
-        <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-6xl mx-auto gap-16">
-          {/* LEFT TEXT */}
-          <div className="text-left md:w-1/2">
-            <h1 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">
-              Joel Thomas Chacko
+    <Layout>
+      <div className="min-h-[80vh] flex items-center justify-center">
+        <div className="flex flex-col-reverse gap-12 md:flex-row md:items-center md:justify-between max-w-4xl mx-auto px-4">
+          <div className="space-y-6 md:w-2/3">
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+              Hey, I'm Joel Kariyalil
             </h1>
-            <p className="text-gray-600 text-lg leading-relaxed max-w-md">
-              I'm a software developer who enjoys building minimal, elegant systems that help people think clearly.
-              This site is where I occasionally share projects and thoughts.
+            <p className="text-xl text-gray-600">
+              I'm a software engineer passionate about building elegant solutions to complex problems.
+              I write about software development, technology, and my experiences.
             </p>
           </div>
-
-          {/* RIGHT IMAGE */}
-          <div className="md:w-1/2 flex justify-center">
-            <div className="w-81 h-81 rounded-full overflow-hidden shadow-md">
+          <div className="mx-auto md:w-1/3">
+            <div className="relative aspect-square overflow-hidden rounded-full hover:scale-105 transition-transform duration-300">
               <Image
                 src="/profilepic.jpg"
-                alt="Joel Thomas Chacko"
-                width={311}
-                height={311}
-                className="object-cover w-full h-full"
+                alt="Joel Kariyalil"
+                fill
+                className="object-cover"
                 priority
               />
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </Layout>
   );
 }
