@@ -23,23 +23,44 @@ export interface BlogPost {
   date: string;
   content: string;
   excerpt: string;
-  coverImage?: string;
-  author?: {
-    name: string;
-    picture: string;
-  };
-  ogImage?: {
-    url: string;
-  };
+  coverImage: string | null;
+  author: {
+    name: string | null;
+    picture: string | null;
+  } | null;
+  ogImage: {
+    url: string | null;
+  } | null;
   readingTime: string;
   tableOfContents: Array<{
     text: string;
     id: string;
     level: number;
   }>;
-  techStack?: string[];
-  isFeatured?: boolean;
-  showTags?: boolean;
+  techStack: string[];
+  isFeatured: boolean;
+  showTags: boolean;
+}
+
+interface BlogPostData {
+  slug: string;
+  title: string | null;
+  date: string | null;
+  excerpt: string | null;
+  coverImage: string | null;
+  content: string;
+  techStack: string[];
+  isFeatured: boolean;
+  showTags: boolean;
+  readingTime: string;
+  tableOfContents: TableOfContents[];
+  author: {
+    name: string | null;
+    picture: string | null;
+  } | null;
+  ogImage: {
+    url: string | null;
+  } | null;
 }
 
 const postsDirectory = path.join(process.cwd(), 'content/blogs');
@@ -69,7 +90,7 @@ function getAssetsList(postPath: string): string[] {
   return getFiles(assetsPath);
 }
 
-function isValidBlogPost(data: any): data is BlogPost {
+function isValidBlogPost(data: BlogPostData): data is BlogPost {
   return (
     typeof data.slug === 'string' &&
     typeof data.title === 'string' &&
@@ -153,7 +174,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     const readingTimeResult = readingTime(content);
 
     // Validate and transform asset paths in content
-    let processedContentStr = contentStr;
+    const processedContentStr = contentStr;
     const assetRegex = /(?:src|poster)="\.\/assets\/([^"]+)"/g;
     while ((match = assetRegex.exec(contentStr)) !== null) {
       const assetPath = match[1];

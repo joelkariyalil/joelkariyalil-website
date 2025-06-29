@@ -16,38 +16,27 @@ export interface Project {
   excerpt: string;
   coverImage: string;
   content: string;
+  htmlContent?: string;  // Add HTML content field
   tags: string[];  // Array of technology/topic tags
   isFeatured?: boolean;  // Whether the project should be featured
 }
 
 const projectsDirectory = path.join(process.cwd(), 'content/projects');
 
-function getAssetsList(projectPath: string): string[] {
-  const assetsPath = path.join(projectPath, 'assets');
-  if (!fs.existsSync(assetsPath)) return [];
-
-  const getFiles = (dir: string): string[] => {
-    const files = fs.readdirSync(dir);
-    let fileList: string[] = [];
-
-    files.forEach(file => {
-      const filePath = path.join(dir, file);
-      const stat = fs.statSync(filePath);
-      
-      if (stat.isDirectory()) {
-        fileList = fileList.concat(getFiles(filePath));
-      } else {
-        fileList.push(filePath.replace(assetsPath + '/', ''));
-      }
-    });
-
-    return fileList;
-  };
-
-  return getFiles(assetsPath);
+async function processMarkdown(content: string): Promise<string> {
+  const result = await unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkRehype)
+    .use(rehypeSlug)
+    .use(rehypeHighlight)
+    .use(rehypeStringify)
+    .process(content);
+  
+  return result.toString();
 }
 
-export function getProjectBySlug(slug: string): Project {
+export async function getProjectBySlug(slug: string): Promise<Project> {
   const fullPath = path.join(projectsDirectory, slug, 'index.md');
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const { data, content } = matter(fileContents);
@@ -58,6 +47,9 @@ export function getProjectBySlug(slug: string): Project {
     coverImage = `/content/projects/${slug}/${coverImage.slice(2)}`;
   }
 
+  // Process markdown content
+  const htmlContent = await processMarkdown(content);
+
   return {
     slug,
     title: data.title,
@@ -65,28 +57,34 @@ export function getProjectBySlug(slug: string): Project {
     excerpt: data.excerpt,
     coverImage: coverImage,
     content,
+    htmlContent,
     tags: data.tags || [], // Default to empty array if no tags
     isFeatured: data.isFeatured ?? false, // Default to false if not specified
   };
 }
 
-export function getAllProjects(): Project[] {
+export async function getAllProjects(): Promise<Project[]> {
   const slugs = fs.readdirSync(projectsDirectory);
-  const projects = slugs
-    .filter(slug => fs.existsSync(path.join(projectsDirectory, slug, 'index.md')))
-    .map(slug => getProjectBySlug(slug));
+  const projects = await Promise.all(
+    slugs
+      .filter(slug => fs.existsSync(path.join(projectsDirectory, slug, 'index.md')))
+      .map(slug => getProjectBySlug(slug))
+  );
 
   return projects;
 }
 
 // New function to get all unique tags
 export function getAllTags(): string[] {
-  const projects = getAllProjects();
-  const tagSet = new Set<string>();
-  
-  projects.forEach(project => {
-    project.tags.forEach(tag => tagSet.add(tag));
-  });
+  const projects = fs.readdirSync(projectsDirectory)
+    .filter(slug => fs.existsSync(path.join(projectsDirectory, slug, 'index.md')))
+    .map(slug => {
+      const fullPath = path.join(projectsDirectory, slug, 'index.md');
+      const fileContents = fs.readFileSync(fullPath, 'utf8');
+      const { data } = matter(fileContents);
+      return data.tags || [];
+    })
+    .flat();
 
-  return Array.from(tagSet).sort();
+  return Array.from(new Set(projects)).sort();
 } 

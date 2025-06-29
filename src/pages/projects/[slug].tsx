@@ -2,15 +2,9 @@ import { GetStaticProps, GetStaticPaths } from 'next';
 import Image from 'next/image';
 import Layout from '@/components/Layout';
 import { getAllProjects, getProjectBySlug, Project } from '@/lib/projects';
-import { MDXRemote } from 'next-mdx-remote';
-import { serialize } from 'next-mdx-remote/serialize';
-import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
 
 interface ProjectPageProps {
-  project: Project & {
-    mdxSource: any;
-  };
+  project: Project;
 }
 
 export default function ProjectPage({ project }: ProjectPageProps) {
@@ -18,54 +12,62 @@ export default function ProjectPage({ project }: ProjectPageProps) {
     <Layout>
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <header className="mb-8">
-          <div className="relative aspect-video mb-8 overflow-hidden rounded-lg">
+          <h1 className="text-4xl font-bold mb-4">{project.title}</h1>
+          <p className="text-gray-600">{project.date}</p>
+          {project.tags && (
+            <div className="flex flex-wrap gap-2 mt-4">
+              {project.tags.map(tag => (
+                <span
+                  key={tag}
+                  className="px-3 py-1 text-sm font-medium bg-blue-100 text-blue-800 rounded-full"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </header>
+
+        {project.coverImage && (
+          <div className="relative h-96 mb-8">
             <Image
               src={project.coverImage}
               alt={project.title}
               fill
-              className="object-cover"
+              className="object-cover rounded-lg"
+              sizes="(max-width: 1024px) 100vw, 1024px"
               priority
             />
           </div>
-          <p className="text-gray-600">{project.date}</p>
-        </header>
+        )}
 
-        <div className="prose prose-lg max-w-none">
-          <MDXRemote {...project.mdxSource} />
-        </div>
+        <div 
+          className="prose prose-lg max-w-none"
+          dangerouslySetInnerHTML={{ __html: project.htmlContent || '' }}
+        />
       </article>
     </Layout>
   );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const projects = getAllProjects();
+  const projects = await getAllProjects();
+  const paths = projects.map((project) => ({
+    params: { slug: project.slug },
+  }));
 
   return {
-    paths: projects.map((project) => ({
-      params: {
-        slug: project.slug,
-      },
-    })),
+    paths,
     fallback: false,
   };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const project = getProjectBySlug(params?.slug as string);
-  const mdxSource = await serialize(project.content, {
-    mdxOptions: {
-      remarkPlugins: [remarkGfm],
-      rehypePlugins: [rehypeHighlight],
-    },
-  });
+  const project = await getProjectBySlug(params?.slug as string);
 
   return {
     props: {
-      project: {
-        ...project,
-        mdxSource,
-      },
+      project,
     },
   };
 }; 

@@ -1,0 +1,219 @@
+images:
+  - name: "Sunset at the Beach"
+    src: "/images/clicks/1.jpg"
+    tags: ["nature", "sunset", "beach"]
+    description: "Beautiful sunset captured at the beach"
+    date: "2024-01-15"
+    location: "Miami Beach"
+
+  - name: "Urban Architecture"
+    src: "/images/clicks/2.jpg"
+    tags: ["architecture", "urban", "modern"]
+    description: "Modern architectural design in the city"
+    date: "2024-01-20"
+    location: "New York City"
+
+  - name: "Mountain Vista"
+    src: "/images/clicks/3.jpg"
+    tags: ["nature", "mountains", "landscape"]
+    description: "Panoramic view of mountain ranges"
+    date: "2024-02-01"
+    location: "Rocky Mountains"
+
+  - name: "Street Photography"
+    src: "/images/clicks/4.jpg"
+    tags: ["street", "people", "urban"]
+    description: "Candid street scene in downtown"
+    date: "2024-02-15"
+    location: "San Francisco"
+
+  - name: "Forest Path"
+    src: "/images/clicks/5.jpg"
+    tags: ["nature", "forest", "path"]
+    description: "Serene path through dense forest"
+    date: "2024-02-28"
+    location: "Redwood National Park"
+
+  - name: "City Lights"
+    src: "/images/clicks/6.jpg"
+    tags: ["night", "city", "urban", "lights"]
+    description: "Vibrant city skyline at night"
+    date: "2024-03-01"
+    location: "Chicago"
+
+  - name: "Desert Dunes"
+    src: "/images/clicks/7.jpg"
+    tags: ["nature", "desert", "landscape"]
+    description: "Rolling sand dunes at sunrise"
+    date: "2024-03-05"
+    location: "Sahara Desert"
+
+  - name: "Autumn Colors"
+    src: "/images/clicks/8.jpg"
+    tags: ["nature", "autumn", "trees"]
+    description: "Vibrant fall foliage in the park"
+    date: "2024-03-10"
+    location: "Central Park"
+
+  - name: "Historic Architecture"
+    src: "/images/clicks/9.jpg"
+    tags: ["architecture", "historic", "building"]
+    description: "Classical European architecture"
+    date: "2024-03-15"
+    location: "Paris"
+
+  - name: "Ocean Waves"
+    src: "/images/clicks/10.jpg"
+    tags: ["nature", "ocean", "waves"]
+    description: "Powerful ocean waves at sunset"
+    date: "2024-03-20"
+    location: "Big Sur"
+
+  - name: "Street Art"
+    src: "/images/clicks/11.jpg"
+    tags: ["art", "urban", "street", "culture"]
+    description: "Colorful mural in the city"
+    date: "2024-03-25"
+    location: "Melbourne"
+
+  - name: "Wildlife"
+    src: "/images/clicks/12.jpg"
+    tags: ["nature", "animals", "wildlife"]
+    description: "Wild animals in their natural habitat"
+    date: "2024-04-01"
+    location: "Serengeti"
+
+  - name: "Modern Interior"
+    src: "/images/clicks/13.jpg"
+    tags: ["interior", "design", "modern"]
+    description: "Contemporary interior design"
+    date: "2024-04-05"
+    location: "Tokyo"
+
+  - name: "Mountain Lake"
+    src: "/images/clicks/14.jpg"
+    tags: ["nature", "lake", "mountains", "reflection"]
+    description: "Pristine mountain lake with perfect reflection"
+    date: "2024-04-10"
+    location: "Swiss Alps"
+
+  - name: "Street Market"
+    src: "/images/clicks/15.jpg"
+    tags: ["culture", "market", "people", "street"]
+    description: "Bustling local street market"
+    date: "2024-04-15"
+    location: "Bangkok"
+
+  - name: "Industrial Design"
+    src: "/images/clicks/16.jpg"
+    tags: ["industrial", "architecture", "modern"]
+    description: "Modern industrial architecture"
+    date: "2024-04-20"
+    location: "Berlin"
+
+  - name: "Spring Flowers"
+    src: "/images/clicks/17.jpg"
+    tags: ["nature", "flowers", "spring"]
+    description: "Colorful spring wildflowers"
+    date: "2024-04-25"
+    location: "Netherlands"
+
+  - name: "Urban Transport"
+    src: "/images/clicks/18.jpg"
+    tags: ["urban", "transport", "city"]
+    description: "Modern urban transportation"
+    date: "2024-05-01"
+    location: "Singapore"
+
+  - name: "Waterfall"
+    src: "/images/clicks/19.jpg"
+    tags: ["nature", "waterfall", "landscape"]
+    description: "Majestic waterfall in the rainforest"
+    date: "2024-05-05"
+    location: "Costa Rica"
+
+  - name: "Night Market"
+    src: "/images/clicks/20.jpg"
+    tags: ["night", "market", "culture", "food"]
+    description: "Vibrant night market scene"
+    date: "2024-05-10"
+    location: "Taipei"
+
+  - name: "Snow Landscape"
+    src: "/images/clicks/21.jpg"
+    tags: ["nature", "snow", "winter", "landscape"]
+    description: "Pristine snowy landscape"
+    date: "2024-05-15"
+    location: "Alaska"
+
+  - name: "Street Cafe"
+    src: "/images/clicks/22.jpg"
+    tags: ["urban", "cafe", "street", "people"]
+    description: "Charming street cafe atmosphere"
+    date: "2024-05-20"
+    location: "Rome"
+
+  - name: "Desert Night"
+    src: "/images/clicks/23.jpg"
+    tags: ["nature", "night", "desert", "stars"]
+    description: "Starry night in the desert"
+    date: "2024-05-25"
+    location: "Arizona"
+
+  - name: "Urban Garden"
+    src: "/images/clicks/24.jpg"
+    tags: ["garden", "urban", "nature"]
+    description: "Peaceful urban garden oasis"
+    date: "2024-06-01"
+    location: "Vancouver"
+
+  - name: "Traditional Architecture"
+    src: "/images/clicks/25.jpg"
+    tags: ["architecture", "traditional", "culture"]
+    description: "Traditional Asian architecture"
+    date: "2024-06-05"
+    location: "Kyoto"
+
+  - name: "Beach Sunrise"
+    src: "/images/clicks/26.jpg"
+    tags: ["nature", "beach", "sunrise"]
+    description: "Stunning beach sunrise"
+    date: "2024-06-10"
+    location: "Maldives"
+
+  - name: "Street Musicians"
+    src: "/images/clicks/27.jpg"
+    tags: ["music", "street", "culture", "people"]
+    description: "Street musicians performing"
+    date: "2024-06-15"
+    location: "New Orleans"
+
+  - name: "Autumn Lake"
+    src: "/images/clicks/28.jpg"
+    tags: ["nature", "lake", "autumn", "reflection"]
+    description: "Lake surrounded by autumn colors"
+    date: "2024-06-20"
+    location: "Maine"
+
+  - name: "City Park"
+    src: "/images/clicks/29.jpg"
+    tags: ["urban", "park", "nature", "people"]
+    description: "Urban park on a sunny day"
+    date: "2024-06-25"
+    location: "London"
+
+  - name: "Harbor View"
+    src: "/images/clicks/30.jpg"
+    tags: ["harbor", "boats", "water", "urban"]
+    description: "Scenic harbor with boats"
+    date: "2024-06-30"
+    location: "Sydney"
+
+  # Add metadata for remaining images (6-30)
+  # Example template:
+  # - name: "Image Title"
+  #   src: "/images/clicks/N.jpg"
+  #   tags: ["tag1", "tag2", "tag3"]
+  #   description: "Image description"
+  #   date: "YYYY-MM-DD"
+  #   location: "Location name" 
