@@ -12,7 +12,7 @@ export default function Resume() {
           </p>
           
           <a
-            href="/resume.pdf"
+            href="https://drive.google.com/file/d/1QzKSr8TEbhs9Rfk2K5qLTrfJ8DsxwqBk/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
             className="button-hover inline-flex items-center rounded-full bg-blue-600 px-6 py-3 text-lg font-semibold text-white transition-colors hover:bg-blue-700"

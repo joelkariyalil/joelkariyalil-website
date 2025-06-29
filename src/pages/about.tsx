@@ -104,7 +104,7 @@ export default function AboutPage() {
                 <div className="space-y-2 text-base">
                   <p>
                     <a
-                      href="mailto:joel@example.com"
+                      href="mailto:joelkariyalil.com"
                       className="flex items-center gap-2 text-gray-600 hover:text-blue-600"
                     >
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">

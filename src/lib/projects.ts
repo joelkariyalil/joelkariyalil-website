@@ -16,12 +16,35 @@ export interface Project {
   excerpt: string;
   coverImage: string;
   content: string;
-  htmlContent?: string;  // Add HTML content field
-  tags: string[];  // Array of technology/topic tags
-  isFeatured?: boolean;  // Whether the project should be featured
+  htmlContent?: string;
+  tags: string[];
+  isFeatured?: boolean;
+  githubUrl?: string;
+  demoUrl?: string;
 }
 
 const projectsDirectory = path.join(process.cwd(), 'content/projects');
+
+function validateImagePath(imagePath: string, projectSlug: string): string | null {
+  // If the path is absolute (starts with /), return as is
+  if (imagePath.startsWith('/')) {
+    return imagePath;
+  }
+
+  // If the path starts with ./, remove it
+  const cleanPath = imagePath.startsWith('./') ? imagePath.slice(2) : imagePath;
+  
+  // Construct the full path
+  const fullPath = path.join(projectsDirectory, projectSlug, cleanPath);
+  
+  // Check if the file exists
+  if (fs.existsSync(fullPath)) {
+    // Return the path that will be served by the API
+    return `/content/projects/${projectSlug}/${cleanPath}`;
+  }
+
+  return null;
+}
 
 async function processMarkdown(content: string): Promise<string> {
   const result = await unified()
@@ -51,12 +74,33 @@ export async function getProjectBySlug(slug: string): Promise<Project> {
     const date = data.date || new Date().toISOString().split('T')[0];
     const excerpt = data.excerpt || '';
 
-    // Transform relative image paths to API routes
-    let coverImage = data.coverImage;
-    if (coverImage?.startsWith('./')) {
-      coverImage = `/content/projects/${slug}/${coverImage.slice(2)}`;
-    } else if (!coverImage) {
-      coverImage = '/images/default-project-cover.jpg'; // Provide a default cover image
+    // Handle cover image
+    let coverImage = null;
+    if (data.coverImage) {
+      coverImage = validateImagePath(data.coverImage, slug);
+    }
+    
+    // If no valid cover image is found, try the default locations
+    if (!coverImage) {
+      const possiblePaths = [
+        path.join(projectsDirectory, slug, 'assets/cover.jpg'),
+        path.join(projectsDirectory, slug, 'assets/cover.png'),
+        path.join(projectsDirectory, slug, 'cover.jpg'),
+        path.join(projectsDirectory, slug, 'cover.png')
+      ];
+
+      for (const imgPath of possiblePaths) {
+        if (fs.existsSync(imgPath)) {
+          const relativePath = path.relative(path.join(projectsDirectory, slug), imgPath);
+          coverImage = `/content/projects/${slug}/${relativePath}`;
+          break;
+        }
+      }
+    }
+
+    // If still no cover image, use a default
+    if (!coverImage) {
+      coverImage = '/images/default-project-cover.svg';
     }
 
     // Process markdown content
@@ -70,8 +114,10 @@ export async function getProjectBySlug(slug: string): Promise<Project> {
       coverImage,
       content: content || '',
       htmlContent,
-      tags: Array.isArray(data.tags) ? data.tags : [], // Ensure tags is always an array
-      isFeatured: Boolean(data.isFeatured), // Ensure boolean value
+      tags: Array.isArray(data.tags) ? data.tags : [],
+      isFeatured: Boolean(data.isFeatured),
+      githubUrl: data.githubUrl || null,
+      demoUrl: data.demoUrl || null
     };
   } catch (error) {
     console.error(`Error loading project ${slug}:`, error);
@@ -81,11 +127,11 @@ export async function getProjectBySlug(slug: string): Promise<Project> {
       title: 'Error Loading Project',
       date: new Date().toISOString().split('T')[0],
       excerpt: 'This project could not be loaded.',
-      coverImage: '/images/default-project-cover.jpg',
+      coverImage: '/images/default-project-cover.svg',
       content: '',
       htmlContent: '',
       tags: [],
-      isFeatured: false,
+      isFeatured: false
     };
   }
 }
@@ -109,7 +155,6 @@ export async function getAllProjects(): Promise<Project[]> {
   }
 }
 
-// New function to get all unique tags
 export function getAllTags(): string[] {
   try {
     const projects = fs.readdirSync(projectsDirectory)
