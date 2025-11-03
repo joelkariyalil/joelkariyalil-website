@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="1200" height="630" fill="#F3F4F6"/>
-  <path d="M600 265c-27.614 0-50 22.386-50 50s22.386 50 50 50 50-22.386 50-50-22.386-50-50-50zm0 20c16.569 0 30 13.431 30 30s-13.431 30-30 30-30-13.431-30-30 13.431-30 30-30z" fill="#9CA3AF"/>
-  <path d="M500 415h200v20H500z" fill="#E5E7EB"/>
-  <path d="M550 445h100v10H550z" fill="#E5E7EB"/>
-  <text x="600" y="500" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#4B5563">Blog Post Cover Image</text>
-</svg> 
