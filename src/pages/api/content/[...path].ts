@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+rimport { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
 import mime from 'mime-types';
@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // Check if file exists
+    // Check if file exists first
     if (!fs.existsSync(filePath)) {
       return res.status(404).json({ error: 'File not found' });
     }
