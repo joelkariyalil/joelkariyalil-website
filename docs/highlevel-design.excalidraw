@@ -1,0 +1,48 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://excalidraw-jetbrains-plugin",
+  "elements": [
+    {
+      "id": "sJ1NTV19JvnmAmxeqPsHn",
+      "type": "text",
+      "x": 312,
+      "y": 131,
+      "width": 316.40625,
+      "height": 312,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 2028126352,
+      "version": 536,
+      "versionNonce": 1253816464,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1767536538829,
+      "link": null,
+      "locked": false,
+      "text": "Dividing it into 3 sections\n\n1. Builder\n2. Content\n    - manifest.yaml\n3. Web\n    - web-src\n    - artifacts  \n\n\n\n\n",
+      "fontSize": 20,
+      "fontFamily": 3,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 308,
+      "containerId": null,
+      "originalText": "Dividing it into 3 sections\n\n1. Builder\n2. Content\n    - manifest.yaml\n3. Web\n    - web-src\n    - artifacts  \n\n\n\n\n",
+      "lineHeight": 1.2
+    }
+  ],
+  "appState": {
+    "gridSize": null,
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}
